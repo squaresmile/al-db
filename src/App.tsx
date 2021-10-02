@@ -1,24 +1,56 @@
-import "./App.css";
-import logo from "./logo.svg";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container } from "react-bootstrap";
+import {
+    BrowserRouter,
+    Route,
+    Routes,
+    Navigate,
+    useParams,
+} from "react-router-dom";
+
+import Navigation from "./Component/Navigation";
+import Region from "./Data/Schema/Region";
+import EquipSkinPage from "./Page/EquipSkin";
+import HomePage from "./Page/HomePage";
+
+const AppRegion = () => {
+    const { pRegion } = useParams();
+    const region = (pRegion ?? Region.EN) as Region;
+    const knownRegion = Object.values<Region>(Region).includes(region);
+
+    const knownRegionRoutes = (
+        <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+                path="equip-skin"
+                element={<EquipSkinPage region={region} />}
+            />
+        </Routes>
+    );
+
+    return (
+        <>
+            <Navigation region={knownRegion ? region : Region.EN} />
+            <Container>
+                {knownRegion ? (
+                    knownRegionRoutes
+                ) : (
+                    <h1>Unknown Region {region}</h1>
+                )}
+            </Container>
+            <br />
+        </>
+    );
+};
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <BrowserRouter basename="/db">
+            <Routes>
+                <Route path="/" element={<Navigate to="/EN" />} />
+                <Route path=":pRegion/*" element={<AppRegion />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
