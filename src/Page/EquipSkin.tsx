@@ -20,7 +20,7 @@ const EquipSkinTable = ({
     equipType: Map<number, EquipType>;
 }) => {
     return (
-        <Table>
+        <Table responsive hover>
             <thead>
                 <tr>
                     <th>Skin</th>
