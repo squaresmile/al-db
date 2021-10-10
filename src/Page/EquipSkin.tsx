@@ -9,6 +9,7 @@ import {
     fetchEquipSkin,
     fetchEquipSkinTheme,
     fetchEquipType,
+    ASSET_URL,
 } from "../Data/fetch";
 
 const EquipSkinTable = ({
@@ -22,6 +23,7 @@ const EquipSkinTable = ({
         <Table>
             <thead>
                 <tr>
+                    <th>Skin</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
@@ -30,6 +32,13 @@ const EquipSkinTable = ({
             <tbody>
                 {skins.map((skin) => (
                     <tr key={skin.id}>
+                        <td>
+                            <img
+                                src={`${ASSET_URL}/equips/${skin.icon}.png`}
+                                width="40px"
+                                alt={`Weapon Skin ${skin.name}`}
+                            />
+                        </td>
                         <td>{skin.name}</td>
                         <td style={{ whiteSpace: "pre-wrap" }}>
                             {skin.equip_type

@@ -8,6 +8,8 @@ import EquipType, { EquipTypeTemplate } from "./Schema/sharecfg/EquipType";
 const BASE_URL =
     "https://raw.githubusercontent.com/AzurLaneTools/AzurLaneData/main";
 
+export const ASSET_URL = "https://al.square.ovh/assets";
+
 type CfgFolder = "GameCfg" | "ShareCfg" | "sharecfgdata" | null;
 
 async function fetchData<T>(
