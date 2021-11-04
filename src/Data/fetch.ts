@@ -1,9 +1,10 @@
 import Region from "./Schema/Region";
-import EquipSkin, { EquipSkinTemplate } from "./Schema/sharecfg/EquipSkin";
-import EquipSkinTheme, {
-    EquipSkinThemeTemplate,
-} from "./Schema/sharecfg/EquipSkinTheme";
-import EquipType, { EquipTypeTemplate } from "./Schema/sharecfg/EquipType";
+import BackyardTheme from "./Schema/sharecfg/BackyardTheme";
+import EquipSkin from "./Schema/sharecfg/EquipSkin";
+import EquipSkinTheme from "./Schema/sharecfg/EquipSkinTheme";
+import EquipType from "./Schema/sharecfg/EquipType";
+import Furniture from "./Schema/sharecfg/Furniture";
+import FurnitureShop from "./Schema/sharecfg/FurnitureShop";
 
 const BASE_URL =
     "https://raw.githubusercontent.com/AzurLaneTools/AzurLaneData/main";
@@ -14,12 +15,13 @@ type CfgFolder = "GameCfg" | "ShareCfg" | "sharecfgdata" | null;
 
 async function fetchData<T>(
     region: Region,
-    location: CfgFolder,
-    file: string
-): Promise<T> {
-    return fetch(`${BASE_URL}/${region}/${location}/${file}.json`).then((res) =>
-        res.json()
-    );
+    file: string,
+    location: CfgFolder = "ShareCfg"
+): Promise<T[]> {
+    const templateData: { [key: string]: T } = await fetch(
+        `${BASE_URL}/${region}/${location}/${file}.json`
+    ).then((res) => res.json());
+    return objectToList(templateData);
 }
 
 function objectToList<T>(obj: { [key: string]: T }): T[] {
@@ -28,31 +30,26 @@ function objectToList<T>(obj: { [key: string]: T }): T[] {
         .map(([_, data]) => data);
 }
 
-export async function fetchEquipSkin(region: Region): Promise<EquipSkin[]> {
-    const equipSkin = await fetchData<EquipSkinTemplate>(
-        region,
-        "ShareCfg",
-        "equip_skin_template"
-    );
-    return objectToList(equipSkin);
+export async function fetchEquipSkin(region: Region) {
+    return fetchData<EquipSkin>(region, "equip_skin_template");
 }
 
-export async function fetchEquipSkinTheme(
-    region: Region
-): Promise<EquipSkinTheme[]> {
-    const equipSkinTheme = await fetchData<EquipSkinThemeTemplate>(
-        region,
-        "ShareCfg",
-        "equip_skin_theme_template"
-    );
-    return objectToList(equipSkinTheme);
+export async function fetchEquipSkinTheme(region: Region) {
+    return fetchData<EquipSkinTheme>(region, "equip_skin_theme_template");
 }
 
-export async function fetchEquipType(region: Region): Promise<EquipType[]> {
-    const equipSkin = await fetchData<EquipTypeTemplate>(
-        region,
-        "ShareCfg",
-        "equip_data_by_type"
-    );
-    return objectToList(equipSkin);
+export async function fetchEquipType(region: Region) {
+    return fetchData<EquipType>(region, "equip_data_by_type");
+}
+
+export async function fetchFurniture(region: Region) {
+    return fetchData<Furniture>(region, "furniture_data_template");
+}
+
+export async function fetchFurnitureShop(region: Region) {
+    return fetchData<FurnitureShop>(region, "furniture_shop_template");
+}
+
+export async function fetchBackyardTheme(region: Region) {
+    return fetchData<BackyardTheme>(region, "backyard_theme_template");
 }

@@ -11,6 +11,7 @@ import {
 import Navigation from "./Component/Navigation";
 import Region from "./Data/Schema/Region";
 import EquipSkinPage from "./Page/EquipSkin";
+import FurniturePage from "./Page/Furniture";
 import HomePage from "./Page/HomePage";
 
 const AppRegion = () => {
@@ -24,6 +25,10 @@ const AppRegion = () => {
             <Route
                 path="equip-skin"
                 element={<EquipSkinPage region={region} />}
+            />
+            <Route
+                path="furniture"
+                element={<FurniturePage region={region} />}
             />
         </Routes>
     );

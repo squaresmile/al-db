@@ -74,18 +74,13 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
         });
     }, [region]);
 
-    const latestTheme =
-        equipSkinTheme.length > 0
-            ? Math.max(
-                  ...equipSkinTheme
-                      .map((theme) => theme.id)
-                      .filter((id) => id !== 199)
-              ).toString()
-            : "0";
-
     if (equipSkinTheme.length === 0) {
         return <>Loading data</>;
     }
+
+    const latestTheme = Math.max(
+        ...equipSkinTheme.map((theme) => theme.id).filter((id) => id !== 199)
+    ).toString();
 
     const equipTypeInfo = new Map(
         equipType.map((eqType) => [eqType.equip_type, eqType])
@@ -102,7 +97,7 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
                         eventKey={theme.id.toString()}
                     >
                         <Accordion.Header>
-                            {theme.id} {theme.name}
+                            {theme.id} &mdash; {theme.name}
                         </Accordion.Header>
                         <Accordion.Body>
                             <EquipSkinTable

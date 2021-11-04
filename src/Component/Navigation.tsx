@@ -32,6 +32,9 @@ const Navigation = ({ region }: { region: Region }) => {
                     <Nav activeKey={location.pathname}>
                         <NavPage path="equip-skin" description="Equip Skin" />
                     </Nav>
+                    <Nav activeKey={location.pathname}>
+                        <NavPage path="furniture" description="Furniture" />
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
