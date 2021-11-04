@@ -123,14 +123,14 @@ const FurniturePage = ({ region }: { region: Region }) => {
                     <Accordion.Header>
                         0 &mdash; Furniture without Set
                     </Accordion.Header>
-                    <Accordion.Body>
+                    <Accordion.Collapse eventKey="0" mountOnEnter unmountOnExit>
                         <FurnitureTable
                             furnitures={furniture.filter(
                                 (furniture) => furniture.themeId === 0
                             )}
                             furnituresCost={furnitureCostInfo}
                         />
-                    </Accordion.Body>
+                    </Accordion.Collapse>
                 </Accordion.Item>
                 {backyardTheme.map((theme) => (
                     <Accordion.Item
@@ -141,7 +141,11 @@ const FurniturePage = ({ region }: { region: Region }) => {
                             {theme.id} &mdash; {theme.name}
                             {theme.desc !== "" ? ` — ${theme.desc}` : ""}
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Collapse
+                            eventKey={theme.id.toString()}
+                            mountOnEnter
+                            unmountOnExit
+                        >
                             <FurnitureTable
                                 furnitures={furniture.filter(
                                     (furniture) =>
@@ -150,7 +154,7 @@ const FurniturePage = ({ region }: { region: Region }) => {
                                 )}
                                 furnituresCost={furnitureCostInfo}
                             />
-                        </Accordion.Body>
+                        </Accordion.Collapse>
                     </Accordion.Item>
                 ))}
             </Accordion>

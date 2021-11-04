@@ -99,7 +99,11 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
                         <Accordion.Header>
                             {theme.id} &mdash; {theme.name}
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Collapse
+                            eventKey={theme.id.toString()}
+                            mountOnEnter
+                            unmountOnExit
+                        >
                             <EquipSkinTable
                                 skins={equipSkin.filter(
                                     (skin) =>
@@ -108,7 +112,7 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
                                 )}
                                 equipType={equipTypeInfo}
                             />
-                        </Accordion.Body>
+                        </Accordion.Collapse>
                     </Accordion.Item>
                 ))}
             </Accordion>
