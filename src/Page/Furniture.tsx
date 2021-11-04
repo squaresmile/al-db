@@ -11,6 +11,7 @@ import {
     fetchBackyardTheme,
     fetchFurnitureShop,
 } from "../Data/fetch";
+import "./Furniture.css";
 import "./Table.css";
 
 const furnitureTypeName = new Map([
@@ -139,21 +140,27 @@ const FurniturePage = ({ region }: { region: Region }) => {
                     >
                         <Accordion.Header>
                             {theme.id} &mdash; {theme.name}
-                            {theme.desc !== "" ? ` — ${theme.desc}` : ""}
                         </Accordion.Header>
                         <Accordion.Collapse
                             eventKey={theme.id.toString()}
                             mountOnEnter
                             unmountOnExit
                         >
-                            <FurnitureTable
-                                furnitures={furniture.filter(
-                                    (furniture) =>
-                                        theme.ids.includes(furniture.id) ||
-                                        furniture.themeId === theme.id
+                            <div>
+                                {theme.desc !== "" && (
+                                    <div className="furniture-description">
+                                        {theme.desc}
+                                    </div>
                                 )}
-                                furnituresCost={furnitureCostInfo}
-                            />
+                                <FurnitureTable
+                                    furnitures={furniture.filter(
+                                        (furniture) =>
+                                            theme.ids.includes(furniture.id) ||
+                                            furniture.themeId === theme.id
+                                    )}
+                                    furnituresCost={furnitureCostInfo}
+                                />
+                            </div>
                         </Accordion.Collapse>
                     </Accordion.Item>
                 ))}
