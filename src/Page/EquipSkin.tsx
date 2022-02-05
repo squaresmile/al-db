@@ -11,6 +11,7 @@ import {
     fetchEquipType,
     ASSET_URL,
 } from "../Data/fetch";
+import "./String.css";
 
 const EquipSkinTable = ({
     skins,
@@ -40,7 +41,7 @@ const EquipSkinTable = ({
                             />
                         </td>
                         <td>{skin.name}</td>
-                        <td style={{ whiteSpace: "pre-wrap" }}>
+                        <td className="newline">
                             {skin.equip_type
                                 .map(
                                     (eqType) =>
@@ -90,7 +91,7 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
         <>
             <h1>{region} Equip Skin</h1>
             <br />
-            <Accordion defaultActiveKey={latestTheme} flush>
+            <Accordion defaultActiveKey={latestTheme} flush alwaysOpen>
                 {equipSkinTheme.map((theme) => (
                     <Accordion.Item
                         key={theme.id}
