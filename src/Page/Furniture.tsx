@@ -119,7 +119,7 @@ const FurniturePage = ({ region }: { region: Region }) => {
         <>
             <h1>{region} Furniture</h1>
             <br />
-            <Accordion defaultActiveKey={latestTheme} flush alwaysOpen>
+            <Accordion defaultActiveKey={[latestTheme]} flush alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>
                         0 &mdash; Furniture without Set

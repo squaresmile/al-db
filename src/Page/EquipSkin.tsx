@@ -91,7 +91,7 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
         <>
             <h1>{region} Equip Skin</h1>
             <br />
-            <Accordion defaultActiveKey={latestTheme} flush alwaysOpen>
+            <Accordion defaultActiveKey={[latestTheme]} flush alwaysOpen>
                 {equipSkinTheme.map((theme) => (
                     <Accordion.Item
                         key={theme.id}
