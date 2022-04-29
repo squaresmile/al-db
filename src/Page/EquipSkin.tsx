@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Table } from "react-bootstrap";
 
 import Region from "../Data/Schema/Region";
@@ -11,7 +11,6 @@ import {
     fetchEquipType,
     ASSET_URL,
 } from "../Data/fetch";
-import "./String.css";
 
 const EquipSkinTable = ({
     skins,
@@ -41,14 +40,14 @@ const EquipSkinTable = ({
                             />
                         </td>
                         <td>{skin.name}</td>
-                        <td className="newline">
-                            {skin.equip_type
-                                .map(
-                                    (eqType) =>
-                                        equipType.get(eqType)?.type_name2 ??
-                                        `Unknown type ${eqType}`
-                                )
-                                .join("\n")}
+                        <td>
+                            {skin.equip_type.map((eqType) => (
+                                <React.Fragment key={eqType}>
+                                    {equipType.get(eqType)?.type_name2 ??
+                                        `Unknown type ${eqType}`}
+                                    <br />
+                                </React.Fragment>
+                            ))}
                         </td>
                         <td>{skin.desc}</td>
                     </tr>

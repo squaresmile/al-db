@@ -11,8 +11,6 @@ import {
     fetchBackyardTheme,
     fetchFurnitureShop,
 } from "../Data/fetch";
-import "./Furniture.css";
-import "./Table.css";
 
 const furnitureTypeName = new Map([
     [1, "Wallpaper"],
@@ -38,11 +36,11 @@ const FurnitureTable = ({
                     <th>Name</th>
                     <th>Description</th>
                     <th>Type</th>
-                    <th className="align-center">Quantity</th>
-                    <th className="align-right">Coin</th>
-                    <th className="align-right">Gem</th>
-                    <th className="align-center">Comfort</th>
-                    <th className="align-right">Size</th>
+                    <th className="text-center">Quantity</th>
+                    <th className="text-end">Coin</th>
+                    <th className="text-end">Gem</th>
+                    <th className="text-center">Comfort</th>
+                    <th className="text-end">Size</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,17 +61,17 @@ const FurnitureTable = ({
                                 {furnitureTypeName.get(furniture.type) ??
                                     furniture.type}
                             </td>
-                            <td className="align-center">{furniture.count}</td>
-                            <td className="align-right">
+                            <td className="text-center">{furniture.count}</td>
+                            <td className="text-end">
                                 {furnitureCost?.dorm_icon_price ?? ""}
                             </td>
-                            <td className="align-right">
+                            <td className="text-end">
                                 {furnitureCost?.gem_price ?? ""}
                             </td>
-                            <td className="align-center">
+                            <td className="text-center">
                                 +{furniture.comfortable}
                             </td>
-                            <td className="align-right">
+                            <td className="text-end">
                                 {furniture.size.length === 2
                                     ? `${furniture.size[0]}×${furniture.size[1]}`
                                     : ""}
@@ -148,9 +146,7 @@ const FurniturePage = ({ region }: { region: Region }) => {
                         >
                             <div>
                                 {theme.desc !== "" && (
-                                    <div className="furniture-description">
-                                        {theme.desc}
-                                    </div>
+                                    <div className="my-3">{theme.desc}</div>
                                 )}
                                 <FurnitureTable
                                     furnitures={furniture.filter(
