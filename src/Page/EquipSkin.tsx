@@ -80,7 +80,7 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
     }
 
     const latestTheme = Math.max(
-        ...equipSkinTheme.map((theme) => theme.id).filter((id) => id !== 199)
+        ...equipSkinTheme.map((theme) => theme.id).filter((id) => id < 100)
     ).toString();
 
     const equipTypeInfo = new Map(
