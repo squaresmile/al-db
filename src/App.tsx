@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import {
     BrowserRouter,
@@ -13,6 +12,8 @@ import Region from "./Data/Schema/Region";
 import EquipSkinPage from "./Page/EquipSkin";
 import FurniturePage from "./Page/Furniture";
 import HomePage from "./Page/HomePage";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const AppRegion = () => {
     const { pRegion } = useParams();

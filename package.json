@@ -51,7 +51,9 @@
     "prettier": {
         "tabWidth": 4,
         "importOrder": [
-            "^@(.*)/(.*)$",
+            "<THIRD_PARTY_MODULES>",
+            "^[./].*(?<!css)$",
+            "(.*).css$",
             "^[./]"
         ],
         "importOrderSeparation": true
