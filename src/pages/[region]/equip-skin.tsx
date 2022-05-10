@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import Head from "next/head";
+import React from "react";
 import { Accordion, Table } from "react-bootstrap";
 
-import Region from "../Data/Schema/Region";
-import EquipSkin from "../Data/Schema/sharecfg/EquipSkin";
-import EquipSkinTheme from "../Data/Schema/sharecfg/EquipSkinTheme";
-import EquipType from "../Data/Schema/sharecfg/EquipType";
+import Region from "../../data/Schema/Region";
+import EquipSkin from "../../data/Schema/sharecfg/EquipSkin";
+import EquipSkinTheme from "../../data/Schema/sharecfg/EquipSkinTheme";
+import EquipType from "../../data/Schema/sharecfg/EquipType";
 import {
     fetchEquipSkin,
     fetchEquipSkinTheme,
     fetchEquipType,
     ASSET_URL,
-} from "../Data/fetch";
+} from "../../data/fetch";
+import { getStaticPaths as indexGetStaticPaths } from "./index";
 
 const EquipSkinTable = ({
     skins,
@@ -57,25 +60,21 @@ const EquipSkinTable = ({
     );
 };
 
-const EquipSkinPage = ({ region }: { region: Region }) => {
-    const [equipSkin, setEquipSkin] = useState<EquipSkin[]>([]);
-    const [equipSkinTheme, setEquipSkinTheme] = useState<EquipSkinTheme[]>([]);
-    const [equipType, setEquipType] = useState<EquipType[]>([]);
+interface IProps {
+    region: Region;
+    equipSkin: EquipSkin[];
+    equipSkinTheme: EquipSkinTheme[];
+    equipType: EquipType[];
+}
 
-    useEffect(() => {
-        Promise.all([
-            fetchEquipSkin(region),
-            fetchEquipSkinTheme(region),
-            fetchEquipType(region),
-        ]).then(([equipSkins, equipSkinThemes, equipTypes]) => {
-            setEquipSkin(equipSkins);
-            setEquipSkinTheme(equipSkinThemes);
-            setEquipType(equipTypes);
-        });
-    }, [region]);
-
+const EquipSkins = ({
+    region,
+    equipSkin,
+    equipSkinTheme,
+    equipType,
+}: IProps) => {
     if (equipSkinTheme.length === 0) {
-        return <>Loading data</>;
+        return <></>;
     }
 
     const latestTheme = Math.max(
@@ -116,6 +115,31 @@ const EquipSkinPage = ({ region }: { region: Region }) => {
                     </Accordion.Item>
                 ))}
             </Accordion>
+        </>
+    );
+};
+
+export const getStaticPaths = indexGetStaticPaths;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const region = (context.params?.region ?? "EN") as Region;
+    const [equipSkin, equipSkinTheme, equipType] = await Promise.all([
+        fetchEquipSkin(region),
+        fetchEquipSkinTheme(region),
+        fetchEquipType(region),
+    ]);
+    return { props: { region, equipSkin, equipSkinTheme, equipType } };
+};
+
+const EquipSkinPage = (
+    props: InferGetStaticPropsType<typeof getStaticProps>
+) => {
+    return (
+        <>
+            <Head>
+                <title>{props.region} Equip Skins</title>
+            </Head>
+            <EquipSkins {...(props as IProps)} />
         </>
     );
 };

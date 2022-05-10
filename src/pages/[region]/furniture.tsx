@@ -1,16 +1,20 @@
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Accordion, Table } from "react-bootstrap";
 
-import Region from "../Data/Schema/Region";
-import BackyardTheme from "../Data/Schema/sharecfg/BackyardTheme";
-import Furniture from "../Data/Schema/sharecfg/Furniture";
-import FurnitureShop from "../Data/Schema/sharecfg/FurnitureShop";
+import Region from "../../data/Schema/Region";
+import BackyardTheme from "../../data/Schema/sharecfg/BackyardTheme";
+import Furniture from "../../data/Schema/sharecfg/Furniture";
+import FurnitureShop from "../../data/Schema/sharecfg/FurnitureShop";
 import {
     ASSET_URL,
     fetchFurniture,
     fetchBackyardTheme,
     fetchFurnitureShop,
-} from "../Data/fetch";
+} from "../../data/fetch";
+import { getStaticPaths as indexGetStaticPaths } from "./index";
 
 const furnitureTypeName = new Map([
     [1, "Wallpaper"],
@@ -84,25 +88,21 @@ const FurnitureTable = ({
     );
 };
 
-const FurniturePage = ({ region }: { region: Region }) => {
-    const [furniture, setFurniture] = useState<Furniture[]>([]);
-    const [furnitureShop, setFurnitureShop] = useState<FurnitureShop[]>([]);
-    const [backyardTheme, setBackyardTheme] = useState<BackyardTheme[]>([]);
+interface IProps {
+    region: Region;
+    furniture: Furniture[];
+    furnitureShop: FurnitureShop[];
+    backyardTheme: BackyardTheme[];
+}
 
-    useEffect(() => {
-        Promise.all([
-            fetchFurniture(region),
-            fetchFurnitureShop(region),
-            fetchBackyardTheme(region),
-        ]).then(([furniture, furnitureShop, backyardTheme]) => {
-            setFurniture(furniture);
-            setFurnitureShop(furnitureShop);
-            setBackyardTheme(backyardTheme);
-        });
-    }, [region]);
-
+const Furnitures = ({
+    region,
+    furniture,
+    furnitureShop,
+    backyardTheme,
+}: IProps) => {
     if (backyardTheme.length === 0) {
-        return <>Loading data</>;
+        return <></>;
     }
 
     const latestTheme = Math.max(
@@ -161,6 +161,29 @@ const FurniturePage = ({ region }: { region: Region }) => {
                     </Accordion.Item>
                 ))}
             </Accordion>
+        </>
+    );
+};
+export const getStaticPaths = indexGetStaticPaths;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const region = (context.params?.region ?? "EN") as Region;
+    const [furniture, furnitureShop, backyardTheme] = await Promise.all([
+        fetchFurniture(region),
+        fetchFurnitureShop(region),
+        fetchBackyardTheme(region),
+    ]);
+    return { props: { region, furniture, furnitureShop, backyardTheme } };
+};
+const FurniturePage = (
+    props: InferGetStaticPropsType<typeof getStaticProps>
+) => {
+    return (
+        <>
+            <Head>
+                <title>{props.region} Furnitures</title>
+            </Head>
+            <Furnitures {...(props as IProps)} />
         </>
     );
 };

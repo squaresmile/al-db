@@ -1,10 +1,10 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
 
-import Region from "../Data/Schema/Region";
-
-const Navigation = ({ region }: { region: Region }) => {
-    const location = useLocation();
+const Navigation = () => {
+    const router = useRouter();
+    const region = router.query.region ?? "EN";
 
     const NavPage = ({
         path,
@@ -15,24 +15,22 @@ const Navigation = ({ region }: { region: Region }) => {
     }) => {
         const route = `/${region}/${path}`;
         return (
-            <Nav.Link as={Link} to={route} eventKey={route}>
-                {description}
-            </Nav.Link>
+            <Link href={route} passHref>
+                <Nav.Link eventKey={route}>{description}</Nav.Link>
+            </Link>
         );
     };
 
     return (
         <Navbar>
             <Container>
-                <Navbar.Brand as={Link} to={`/${region}`}>
-                    Cereal AL DB
-                </Navbar.Brand>
+                <Link href={`/${region}`} passHref>
+                    <Navbar.Brand>Cereal AL DB</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav activeKey={location.pathname}>
+                    <Nav activeKey={router.asPath.split("#")[0]}>
                         <NavPage path="equip-skin" description="Equip Skin" />
-                    </Nav>
-                    <Nav activeKey={location.pathname}>
                         <NavPage path="furniture" description="Furniture" />
                     </Nav>
                 </Navbar.Collapse>
