@@ -5,6 +5,7 @@
  **/
 const nextConfig = {
     basePath: "/db",
+    output: "export",
 };
 
 module.exports = nextConfig;

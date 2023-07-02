@@ -15,18 +15,18 @@ const Navigation = () => {
     }) => {
         const route = `/${region}/${path}`;
         return (
-            <Link href={route} passHref>
-                <Nav.Link eventKey={route}>{description}</Nav.Link>
-            </Link>
+            <Nav.Link eventKey={route} as={Link} href={route}>
+                {description}
+            </Nav.Link>
         );
     };
 
     return (
         <Navbar>
             <Container>
-                <Link href={`/${region}`} passHref>
-                    <Navbar.Brand>Cereal AL DB</Navbar.Brand>
-                </Link>
+                <Navbar.Brand as={Link} href={`/${region}`}>
+                    Cereal AL DB
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav activeKey={router.asPath.split("#")[0]}>
